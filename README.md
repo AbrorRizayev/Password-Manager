@@ -27,7 +27,7 @@ O'rnatish tartibi
 Loyihani yuklab oling va virtual muhitni yoqing:
 
 Bash
-git clone https://github.com/SizningUsername/reponame.git
+git clone https://github.com/AbrorRizayev/Password-Manager.git
 python -m venv .venv
 source .venv/bin/activate  # Windows uchun: .venv\Scripts\activate
 Zarur kutubxonalarni o'rnating:
@@ -37,6 +37,7 @@ pip install -r requirements.txt
 Ma'lumotlar bazasini sozlang:
 
 Bash
+python manage.py makemigrations
 python manage.py migrate
 Admin akkauntini yarating:
 
