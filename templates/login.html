@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vault Locked — TeamVault</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes pulse-ring {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(59,130,246,0.18), 0 0 0 0 rgba(59,130,246,0.08); }
+      50%       { box-shadow: 0 0 0 10px rgba(59,130,246,0.13), 0 0 0 20px rgba(59,130,246,0.05); }
+    }
+    .shield-pulse { animation: pulse-ring 2.6s ease-in-out infinite; }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center px-4 py-10">
+
+  <div class="w-full max-w-md bg-white rounded-2xl border border-gray-200 shadow-sm px-8 py-10">
+
+    <!-- Logo + heading -->
+    <div class="flex flex-col items-center mb-8">
+      <div class="shield-pulse w-18 h-18 rounded-full bg-blue-50 flex items-center justify-center mb-5"
+           style="width:72px;height:72px;">
+        <svg width="34" height="38" viewBox="0 0 34 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M17 1L3 7v10c0 9.1 6.1 17.6 14 20 7.9-2.4 14-10.9 14-20V7L17 1Z"
+                fill="#3b82f6" fill-opacity="0.15" stroke="#1d4ed8" stroke-width="2" stroke-linejoin="round"/>
+          <rect x="11" y="16" width="12" height="9" rx="2" fill="#1d4ed8"/>
+          <path d="M14 16v-2a3 3 0 0 1 6 0v2" stroke="#1d4ed8" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="17" cy="20.5" r="1.5" fill="white"/>
+        </svg>
+      </div>
+      <p class="text-xs font-medium tracking-widest text-gray-400 uppercase mb-1">TeamVault</p>
+      <h1 class="text-2xl font-medium text-gray-900 mb-1">Vault locked</h1>
+      <p class="text-sm text-gray-500">Sign in to access your team credentials</p>
+    </div>
+
+    <hr class="border-gray-100 mb-6" />
+
+    <!-- Login form -->
+    <form method="POST" action="{% url 'vault:login' %}" novalidate>
+      {% csrf_token %}
+
+      <!-- Username -->
+      <div class="mb-4">
+        <label for="id_username" class="block text-sm font-medium text-gray-700 mb-1.5">
+          Username
+        </label>
+        <input
+          id="id_username"
+          name="username"
+          type="text"
+          autocomplete="username"
+          required
+          placeholder="you@company.com"
+          class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm text-gray-900
+                 placeholder-gray-400 bg-white
+                 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400
+                 transition"
+        />
+      </div>
+
+      <!-- Master password -->
+      <div class="mb-3">
+        <label for="id_password" class="block text-sm font-medium text-gray-700 mb-1.5">
+          Master password
+        </label>
+        <div class="relative">
+          <input
+            id="id_password"
+            name="password"
+            type="password"
+            autocomplete="current-password"
+            required
+            placeholder="Enter master password"
+            class="w-full px-3.5 py-2.5 pr-11 rounded-xl border border-gray-300 text-sm text-gray-900
+                   placeholder-gray-400 bg-white
+                   focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400
+                   transition"
+          />
+          <!-- Eye toggle -->
+          <button
+            type="button"
+            id="eye-toggle"
+            aria-label="Toggle password visibility"
+            class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition"
+          >
+            <!-- Eye open (default) -->
+            <svg id="eye-open" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+            <!-- Eye off (hidden by default) -->
+            <svg id="eye-off" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+                 class="hidden">
+              <line x1="1" y1="1" x2="23" y2="23"/>
+              <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 11 7 11 7a13.16 13.16 0 0 1-1.67 2.68"/>
+              <path d="M6.61 6.61A13.526 13.526 0 0 0 1 12s4 7 11 7a9.74 9.74 0 0 0 5.39-1.61"/>
+              <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
+              <path d="M9 9a3 3 0 0 0 4.24 4.24"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Forgot password -->
+{#      <div class="flex justify-end mb-5">#}
+{#        <a href="{% url 'vault:forgot_password' %}"#}
+{#           class="text-xs text-blue-600 hover:text-blue-800 transition">#}
+{#          Forgot master password?#}
+{#        </a>#}
+{#      </div>#}
+
+      <!-- Django form errors -->
+      {% if form.non_field_errors %}
+        <div class="mb-4 px-4 py-3 rounded-lg bg-red-50 border border-red-200 text-sm text-red-700">
+          {% for error in form.non_field_errors %}{{ error }}{% endfor %}
+        </div>
+      {% endif %}
+
+      <!-- Submit -->
+      <button
+        type="submit"
+        class="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl
+               bg-blue-700 hover:bg-blue-800 active:scale-[0.98]
+               text-white text-sm font-medium
+               transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
+        <!-- Lock icon -->
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="11" width="18" height="11" rx="2"/>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
+        Unlock vault
+      </button>
+    </form>
+
+    <!-- Footer -->
+    <div class="flex items-center justify-center gap-1.5 mt-6">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+           stroke="#22c55e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"/>
+      </svg>
+      <span class="text-xs text-gray-400">End-to-end encryption active</span>
+    </div>
+
+  </div>
+
+  <script>
+    const toggle = document.getElementById('eye-toggle');
+    const pwField = document.getElementById('id_password');
+    const eyeOpen = document.getElementById('eye-open');
+    const eyeOff  = document.getElementById('eye-off');
+    let visible = false;
+
+    toggle.addEventListener('click', () => {
+      visible = !visible;
+      pwField.type   = visible ? 'text' : 'password';
+      eyeOpen.classList.toggle('hidden', visible);
+      eyeOff.classList.toggle('hidden', !visible);
+    });
+  </script>
+
+</body>
+</html>

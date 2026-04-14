@@ -1,0 +1,30 @@
+# Python kesh fayllari
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual muhit
+.venv/
+venv/
+ENV/
+env/
+
+# Ma'lumotlar bazasi (Agar JSON fixture ishlatayotgan bo'lsangiz)
+db.sqlite3
+db.sqlite3-journal
+
+# Maxfiy sozlamalar (Environment variables)
+.env
+
+# Media va Static fayllar
+media/
+staticfiles/
+
+# IDE sozlamalari (PyCharm, VS Code)
+.idea/
+.vscode/
+*.swp
+
+# Eksport qilingan fayllar
+*.xlsx
+*.csv
